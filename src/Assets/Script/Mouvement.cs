@@ -7,6 +7,7 @@ public class Mouvement : MonoBehaviour
     public float jumpForce;
 
     public bool isJumping;
+    public bool canDoubleJump;
 
     public bool isGrounded;
 
@@ -26,24 +27,40 @@ public class Mouvement : MonoBehaviour
         
     }
 
-        void Update()
+    void Update()
     {
-        
-        if (isJumping == true)
+
+        if (Input.GetButtonDown("Jump"))
         {
-            rb.AddForce(new Vector2(0f, jumpForce));
-            isJumping = false;
+            if (isGrounded)
+            {
+                canDoubleJump = true;
+                jump(canDoubleJump);
+                Debug.Log("first jump");
+            } else if (canDoubleJump)
+            {
+                canDoubleJump = false;
+                jump(canDoubleJump);
+                Debug.Log("double jump");
+            }
         }
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            isJumping = true;
-        }
 
         FLip(rb.velocity.x);
 
         float charachterVelocity = Mathf.Abs(rb.velocity.x);
         animator.SetFloat("Speed", charachterVelocity);
+    }
+
+    void jump(bool canDoubleJump)
+    {
+        if (canDoubleJump)
+        {
+            rb.AddForce(new Vector2(0f, jumpForce));
+        } else
+        {
+            rb.AddForce(new Vector2(0f, (jumpForce * 0.6f)));
+        }
     }
 
         void FixedUpdate()
