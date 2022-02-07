@@ -36,12 +36,10 @@ public class Mouvement : MonoBehaviour
             {
                 canDoubleJump = true;
                 jump(canDoubleJump);
-                Debug.Log("first jump");
             } else if (canDoubleJump)
             {
                 canDoubleJump = false;
                 jump(canDoubleJump);
-                Debug.Log("double jump");
             }
         }
 
