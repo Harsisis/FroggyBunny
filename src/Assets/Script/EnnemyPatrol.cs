@@ -11,6 +11,8 @@ public class EnnemyPatrol : MonoBehaviour
     private Transform target;
     private int destPoint;
 
+    public bool activedTheDamageOption;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,8 +38,11 @@ public class EnnemyPatrol : MonoBehaviour
     {
         if(collision.transform.CompareTag("Player"))
         {
-            PlayerHealth playerHealth = collision.transform.GetComponent<PlayerHealth>();
-            playerHealth.TakeDamage(damageOnCollision);
+            if(activedTheDamageOption)
+            {
+                PlayerHealth playerHealth = collision.transform.GetComponent<PlayerHealth>();
+                playerHealth.TakeDamage(damageOnCollision);
+            }
         }
     }
 }
