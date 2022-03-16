@@ -20,10 +20,7 @@ public class Makememove : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            collision.collider.transform.SetParent(null);
             moving = false;
-            
-            Debug.Log("pouet");
         }
     }
 
