@@ -45,7 +45,7 @@ public class GameOverManager : MonoBehaviour
 
     public void MainMenuButton()
     {
-
+        SceneManager.LoadScene("Menu");
     }
 
     public void QuitButton()
