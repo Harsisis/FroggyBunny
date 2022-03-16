@@ -39,6 +39,7 @@ public class GameOverManager : MonoBehaviour
     public void RetryButton()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        PlayerHealth.instance.Respawn();
         gameOverUI.SetActive(false);
     }
 
