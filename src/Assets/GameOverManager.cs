@@ -22,6 +22,11 @@ public class GameOverManager : MonoBehaviour
 
     public void OnPlayerDeath()
     {
+        if(CurrentSceneManager.instance.isPlayerPresentByDefault)
+        {
+            DontDestroyOnLoadScene.instance.RemoveFromDontDestroyOnLoad();
+        }
+
         StartCoroutine(DelayBeforeMenuAppears());
     }
 

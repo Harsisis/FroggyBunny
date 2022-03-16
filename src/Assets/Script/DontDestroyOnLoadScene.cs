@@ -5,15 +5,25 @@ public class DontDestroyOnLoadScene : MonoBehaviour
 {
     public GameObject[] objects;
 
-    void Awake()
+    public static DontDestroyOnLoadScene instance;
+
+    private void Awake()
     {
-        foreach(var element in objects)
+        if (instance != null)
+        {
+            Debug.LogWarning("Il y a plus d'une instance de GameOverManager dans la scène");
+            return;
+        }
+
+        instance = this;
+
+        foreach (var element in objects)
         {
             DontDestroyOnLoad(element);
         }
     }
 
-    void RemoveFromDontDestroyOnLoad()
+    public void RemoveFromDontDestroyOnLoad()
     {
         foreach (var element in objects)
         {
