@@ -85,12 +85,21 @@ public class PlayerHealth : MonoBehaviour
 
     public void Die()
     {
-        Debug.Log("Le joueur est éliminé");
         Mouvement.instance.enabled = false;
         Mouvement.instance.animator.SetTrigger("Die");
-        Mouvement.instance.rb.bodyType = RigidbodyType2D.Kinematic;
+        Mouvement.instance.rb.bodyType = RigidbodyType2D.Static;
         Mouvement.instance.playerCollider.enabled = false;
-        Mouvement.instance.rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        GameOverManager.instance.OnPlayerDeath();
+    }
+
+    public void Respawn()
+    {
+        Mouvement.instance.enabled = true;
+        Mouvement.instance.animator.SetTrigger("Respawn");
+        Mouvement.instance.rb.bodyType = RigidbodyType2D.Dynamic;
+        Mouvement.instance.playerCollider.enabled = true;
+        currentHealth = maxHealth;
+        healthBar.SetHealth(currentHealth);
     }
 
     public IEnumerator InvincibilityFlash()
