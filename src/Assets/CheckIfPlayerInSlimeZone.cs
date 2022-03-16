@@ -20,7 +20,7 @@ public class CheckIfPlayerInSlimeZone : MonoBehaviour
         if (colliderSlimeZone2D.transform.CompareTag("Player"))
         {
             Mouvement mouvement = colliderSlimeZone2D.transform.GetComponent<Mouvement>();
-            mouvement.ChangeMoveSpeedAndJumpForce(20.0f,140f);
+            mouvement.ChangeMoveSpeedAndJumpForce(20.0f,100);
 
         }
     }

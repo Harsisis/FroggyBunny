@@ -106,9 +106,9 @@ public class Mouvement : MonoBehaviour
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
 
-    public void ChangeMoveSpeedAndJumpForce(float test1, float test2)
+    public void ChangeMoveSpeedAndJumpForce(float newMoveSpeed, float newJumpForce)
     {
-        moveSpeed = test1;
-        jumpForce = test2;
+        moveSpeed = newMoveSpeed;
+        jumpForce = newJumpForce;
     }
 }
