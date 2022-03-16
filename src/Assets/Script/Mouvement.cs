@@ -24,7 +24,7 @@ public class Mouvement : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     void Update()
@@ -36,7 +36,8 @@ public class Mouvement : MonoBehaviour
             {
                 canDoubleJump = true;
                 jump(canDoubleJump);
-            } else if (canDoubleJump)
+            }
+            else if (canDoubleJump)
             {
                 canDoubleJump = false;
                 jump(canDoubleJump);
@@ -55,20 +56,22 @@ public class Mouvement : MonoBehaviour
         if (canDoubleJump)
         {
             rb.AddForce(new Vector2(0f, jumpForce));
-        } else
+        }
+        else
         {
+            rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(new Vector2(0f, (jumpForce * 0.6f)));
         }
     }
 
-        void FixedUpdate()
+    void FixedUpdate()
     {
         horizontalMovement = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, collisionLayer);
         MovePlayer(horizontalMovement);
     }
 
-        void MovePlayer(float _horizontalMovement)
+    void MovePlayer(float _horizontalMovement)
     {
         Vector3 targetVelocity = new Vector2(_horizontalMovement, rb.velocity.y);
         rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref velocity, .05f);
@@ -76,10 +79,11 @@ public class Mouvement : MonoBehaviour
 
     void FLip(float _velocity)
     {
-        if(_velocity > 0.1f)
+        if (_velocity > 0.1f)
         {
             spriteRenderer.flipX = false;
-        }else if(_velocity < -0.1f)
+        }
+        else if (_velocity < -0.1f)
         {
             spriteRenderer.flipX = true;
         }
