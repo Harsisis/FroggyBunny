@@ -11,6 +11,9 @@ public class Mouvement : MonoBehaviour
 
     public bool isGrounded;
 
+    public bool isGroundedInSlimeZone;
+    
+
     public Transform groundCheck;
     public float groundCheckRadius;
     public LayerMask collisionLayer;
@@ -38,7 +41,6 @@ public class Mouvement : MonoBehaviour
 
     void Update()
     {
-
         if (Input.GetButtonDown("Jump"))
         {
             if (isGrounded)
@@ -102,5 +104,11 @@ public class Mouvement : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+    }
+
+    public void ChangeMoveSpeedAndJumpForce(float test1, float test2)
+    {
+        moveSpeed = test1;
+        jumpForce = test2;
     }
 }
