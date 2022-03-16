@@ -18,6 +18,9 @@ public class PlayerHealth : MonoBehaviour
 
     public static PlayerHealth instance;
 
+    private Transform playerSpawn;
+    private Animator fadeSystem;
+
     private void Awake()
     {
         if (instance != null)
@@ -27,6 +30,9 @@ public class PlayerHealth : MonoBehaviour
         }
 
         instance = this;
+
+        playerSpawn = GameObject.FindGameObjectWithTag("PlayerSpawn").transform;
+        fadeSystem = GameObject.FindGameObjectWithTag("FadeSystem").GetComponent<Animator>();
     }
 
     void Start()
@@ -39,7 +45,7 @@ public class PlayerHealth : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.H))
         {
-            TakeDamage(20);
+            TakeDamage(100);
         }
     }
 
@@ -63,11 +69,30 @@ public class PlayerHealth : MonoBehaviour
         {
             currentHealth -= damage;
             healthBar.SetHealth(currentHealth);
+
+            //Vérifier si le joueur est toujours vivant
+            if(currentHealth <=0)
+            {
+                Die();
+                return;
+            }
+
             isInvincible = true;
             StartCoroutine(InvincibilityFlash());
             StartCoroutine(HandleInvincibilityDelay());
         }       
     }
+
+    public void Die()
+    {
+        Debug.Log("Le joueur est éliminé");
+        Mouvement.instance.enabled = false;
+        Mouvement.instance.animator.SetTrigger("Die");
+        Mouvement.instance.rb.bodyType = RigidbodyType2D.Kinematic;
+        Mouvement.instance.playerCollider.enabled = false;
+        Mouvement.instance.rb.constraints = RigidbodyConstraints2D.FreezeAll;
+    }
+
     public IEnumerator InvincibilityFlash()
     {
         while(isInvincible)
