@@ -91,6 +91,7 @@ public class PlayerHealth : MonoBehaviour
         Mouvement.instance.rb.bodyType = RigidbodyType2D.Kinematic;
         Mouvement.instance.playerCollider.enabled = false;
         Mouvement.instance.rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        GameOverManager.instance.OnPlayerDeath();
     }
 
     public IEnumerator InvincibilityFlash()

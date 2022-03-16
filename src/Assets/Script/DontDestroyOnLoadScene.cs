@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DontDestroyOnLoadScene : MonoBehaviour
 {
@@ -12,4 +13,11 @@ public class DontDestroyOnLoadScene : MonoBehaviour
         }
     }
 
+    void RemoveFromDontDestroyOnLoad()
+    {
+        foreach (var element in objects)
+        {
+            SceneManager.MoveGameObjectToScene(element, SceneManager.GetActiveScene());
+        }
+    }
 }
