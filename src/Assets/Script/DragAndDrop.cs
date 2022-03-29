@@ -46,9 +46,13 @@ public class DragAndDrop : MonoBehaviour
     private void MousePressed(InputAction.CallbackContext context)
     {
         Ray ray = gameCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-        RaycastHit2D clic2D = Physics2D.GetRayIntersection(ray);
+        RaycastHit2D hit2d = Physics2D.GetRayIntersection(ray);
 
-        StartCoroutine(DragUpdate(clic2D.collider.gameObject));
+        if (null != hit2d.collider && hit2d.collider.gameObject.CompareTag("Draggable"))
+        {
+            StartCoroutine(DragUpdate(hit2d.collider.gameObject));
+        }
+
     }
 
     private IEnumerator DragUpdate(GameObject clickedObject)
@@ -66,6 +70,7 @@ public class DragAndDrop : MonoBehaviour
             {
                 mouseDragSpeed = 0;
                 actualPosition = ray.GetPoint(distance) + clickedObject.transform.position;
+
                 if (!Xaxis)
                     actualPosition.x = initialPosition.x;
                 if (!Yaxis)
@@ -92,6 +97,8 @@ public class DragAndDrop : MonoBehaviour
             /* Pour que la boucle ne devienne pas incontrolable, on attend la prochaine frame "physique" et non "matérielle" pour update (voir doc) */
             yield return waitForFixedUpdate;
         }
+
+        rigidbody.velocity = new Vector2();
 
     }
 
