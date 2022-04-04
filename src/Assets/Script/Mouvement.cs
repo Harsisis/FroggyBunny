@@ -71,7 +71,6 @@ public class Mouvement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(new Vector2(0f, jumpForce * 1.2f));
-            Debug.Log(jumpForce);
         }
         
     }

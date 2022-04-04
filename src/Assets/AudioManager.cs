@@ -22,7 +22,8 @@ public class AudioManager : MonoBehaviour
 
     void PlayNextSong()
     {
-        musicIndex = (musicIndex + 1) % (Forest.Length != 0 ? Forest.Length : 1);
+        Debug.Log(Forest.Length);
+        musicIndex = (musicIndex + 1) % Forest.Length;
         audioSource.clip = Forest[musicIndex];
         audioSource.Play();
     }

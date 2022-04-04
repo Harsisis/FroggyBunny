@@ -29,7 +29,7 @@ public class AudioSwitchMain : MonoBehaviour
         {
             audioSource.Stop();
             audioSource.clip = playlist[0];
-            audioSource.Play(0);
+            audioSource.PlayDelayed(1);
         }
     }
 }
