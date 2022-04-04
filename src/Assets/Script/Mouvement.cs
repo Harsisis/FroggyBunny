@@ -3,7 +3,6 @@ using UnityEngine;
 public class Mouvement : MonoBehaviour
 {
     public float moveSpeed;
-
     public float jumpForce;
 
     public bool isJumping;
@@ -32,7 +31,7 @@ public class Mouvement : MonoBehaviour
     {
         if (instance != null)
         {
-            Debug.LogWarning("Il y a plus d'une instance de PlayerMovement dans la scène");
+            Debug.LogWarning("Il y a plus d'une instance de PlayerMovement dans la scÃ¨ne");
             return;
         }
 
@@ -67,12 +66,14 @@ public class Mouvement : MonoBehaviour
         if (canDoubleJump)
         {
             rb.AddForce(new Vector2(0f, jumpForce));
-        }
+        } 
         else
         {
             rb.velocity = new Vector2(rb.velocity.x, 0);
-            rb.AddForce(new Vector2(0f, (jumpForce * 0.6f)));
+            rb.AddForce(new Vector2(0f, jumpForce * 1.2f));
+            Debug.Log(jumpForce);
         }
+        
     }
 
     void FixedUpdate()
