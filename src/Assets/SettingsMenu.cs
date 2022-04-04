@@ -15,6 +15,7 @@ public class SettingsMenu : MonoBehaviour
 
     public void Start()
     {
+        /* Système de résolution
         Screen.fullScreen = true;
         resolutions = Screen.resolutions.Select(resolution => new Resolution { width = resolution.width, height = resolution.height }).Distinct().ToArray();
         resolutionDropdown.ClearOptions();
@@ -36,6 +37,8 @@ public class SettingsMenu : MonoBehaviour
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
+        */
+        Screen.fullScreen = true;
     }
     public void SetVolume(float volume)
     {
@@ -47,10 +50,12 @@ public class SettingsMenu : MonoBehaviour
         Screen.fullScreen = isFullScreen;
     }
 
+    /* Système de résolution
     public void SetResolution(int resolutionIndex)
     {
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
 
     }
+    */
 }
