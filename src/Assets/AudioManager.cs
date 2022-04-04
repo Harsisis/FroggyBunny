@@ -22,9 +22,11 @@ public class AudioManager : MonoBehaviour
 
     void PlayNextSong()
     {
-        Debug.Log(Forest.Length);
-        musicIndex = (musicIndex + 1) % Forest.Length;
-        audioSource.clip = Forest[musicIndex];
-        audioSource.Play();
+        if(Forest.Length != 0)
+        {
+            musicIndex = (musicIndex + 1) % Forest.Length;
+            audioSource.clip = Forest[musicIndex];
+            audioSource.Play();
+        }
     }
 }
