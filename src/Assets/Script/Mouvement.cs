@@ -31,7 +31,7 @@ public class Mouvement : MonoBehaviour
     {
         if (instance != null)
         {
-            Debug.LogWarning("Il y a plus d'une instance de PlayerMovement dans la scène");
+            Debug.LogWarning("Il y a plus d'une instance de PlayerMovement dans la scene");
             return;
         }
 
@@ -54,15 +54,17 @@ public class Mouvement : MonoBehaviour
             }
         }
 
-
         FLip(rb.velocity.x);
 
-        float charachterVelocity = Mathf.Abs(rb.velocity.x);
-        animator.SetFloat("Speed", charachterVelocity);
+        // set velocity params for animator
+        animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
+        animator.SetFloat("yVelocity", rb.velocity.y);
     }
 
     void jump(bool canDoubleJump)
     {
+        animator.SetBool("isJumping", true);
+
         if (canDoubleJump)
         {
             rb.AddForce(new Vector2(0f, jumpForce));
@@ -79,6 +81,7 @@ public class Mouvement : MonoBehaviour
     {
         horizontalMovement = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, collisionLayer);
+        animator.SetBool("isJumping", !isGrounded);
         MovePlayer(horizontalMovement);
     }
 
