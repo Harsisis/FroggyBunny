@@ -9,6 +9,7 @@ public class BreakableRock : MonoBehaviour
 {
     // Start is called before the first frame update
     SpriteRenderer Item;
+    [SerializeField]
     Sprite[] States;
     int Counter = 0;
     int NextImage = 0;
