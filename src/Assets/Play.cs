@@ -8,6 +8,7 @@ public class Play : MonoBehaviour
 {
     [SerializeField]
     Button BtnPlay;
+    public string sceneName;
 
     void Start()
     {
@@ -16,7 +17,6 @@ public class Play : MonoBehaviour
 
     void startPlay()
     {
-        System.Console.WriteLine("start game");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(sceneName);
     }
 }
