@@ -1,10 +1,26 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
     public AudioClip[] Forest;
     public AudioSource audioSource;
     private int musicIndex = 0;
+
+    public AudioMixerGroup soundEffectMixer;
+
+    public static AudioManager instance;
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.LogWarning("Il y a plus d'une instance de AudioManager dans la scène");
+            return;
+        }
+
+        instance = this;
+    }
 
     void Start()
     {
@@ -28,5 +44,17 @@ public class AudioManager : MonoBehaviour
             audioSource.clip = Forest[musicIndex];
             audioSource.Play();
         }
+    }
+
+    public AudioSource PlayClipAt(AudioClip clip, Vector3 pos)
+    {
+        GameObject tempGO = new GameObject("TempAudio");
+        tempGO.transform.position = pos;
+        AudioSource audioSource = tempGO.AddComponent<AudioSource>();
+        audioSource.clip = clip;
+        audioSource.outputAudioMixerGroup = soundEffectMixer;
+        audioSource.Play();
+        Destroy(tempGO, clip.length);
+        return audioSource;
     }
 }
