@@ -9,6 +9,7 @@ TagManager:
   - Draggable
   - PlayerCave
   - Trampoline
+  - Escargot
   layers:
   - Default
   - TransparentFX
