@@ -4,6 +4,9 @@ public class PlayerSpawn : MonoBehaviour
 {
     private void Awake()
     {
-        GameObject.FindGameObjectWithTag("PlayerCave").transform.position = transform.position;
+        if (null != GameObject.FindGameObjectsWithTag("PlayerCave"))
+        {
+            GameObject.FindGameObjectWithTag("PlayerCave").transform.position = transform.position;
+        }
     }
 }
