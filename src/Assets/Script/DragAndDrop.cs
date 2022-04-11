@@ -8,22 +8,25 @@ public class DragAndDrop : MonoBehaviour
     private Camera gameCamera;
     private WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
     private Vector2 velocity = Vector2.zero;
-    private InputDevice mouse = Mouse.current;
-    private bool hitByFroggy = false;
-    private Coroutine CoroutineMousePressed = false;
+    private bool tryToCheat = false;
+
+    private float mouseDragPhysicSpeed = 10f;
+    private float mouseDragSpeed = 0.5f;
 
     [SerializeField]
     private InputAction mouseClick;
-    [SerializeField]
-    private float mouseDragPhysicSpeed = 10f;
-    [SerializeField]
-    private float mouseDragSpeed = 0.5f;
-    [SerializeField]
-    private bool Xaxis = true;
-    [SerializeField]
-    private bool Yaxis = true;
-    [SerializeField]
-    private bool noYeet = false; 
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Draggable")
+        {
+            tryToCheat = true;
+        }
+        else
+        {
+            tryToCheat = false;
+        }
+    }
 
     private void Awake()
     {
@@ -36,33 +39,12 @@ public class DragAndDrop : MonoBehaviour
         mouseClick.performed += MousePressed;
     }
 
-    private void OnDisable()
-    {
-        mouseClick.performed -= MousePressed;
-        mouseClick.Disable();
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-            if (collision.gameObject.name == "Player" && noYeet)
-            {
-                Debug.Log("touché");
-                hitByFroggy = true;
-        }
-            else
-            {
-                Debug.Log("pas touché");
-                hitByFroggy = false;
-        }
-       
-    }
-
     private void MousePressed(InputAction.CallbackContext context)
     {
         Ray ray = gameCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit2D hit2d = Physics2D.GetRayIntersection(ray);
 
-        if (null != hit2d.collider && hit2d.collider.gameObject.tag == "Draggable" && !hitByFroggy)
+        if (null != hit2d.collider && hit2d.collider.gameObject.tag == "Draggable" && !tryToCheat)
         {
             StartCoroutine(DragUpdate(hit2d.collider.gameObject));
         }
@@ -70,13 +52,11 @@ public class DragAndDrop : MonoBehaviour
 
     private IEnumerator DragUpdate(GameObject clickedObject)
     {
-        if (!hitByFroggy && clickedObject != null)
+        if (clickedObject != null)
         {
             clickedObject.TryGetComponent<Rigidbody2D>(out var rigidbody);
-            clickedObject.TryGetComponent<Collider2D>(out var collider);
 
             float distance = Vector2.Distance(clickedObject.transform.position, gameCamera.transform.position);
-            Vector2 initialPosition = clickedObject.transform.position;
             Vector2 actualPosition;
 
             while (mouseClick.ReadValue<float>() != 0f)
@@ -95,10 +75,7 @@ public class DragAndDrop : MonoBehaviour
                 {
                     mouseDragPhysicSpeed = 0f;
                     actualPosition = clickedObject.transform.position;
-                    if (!Xaxis)
-                        actualPosition.x = initialPosition.x;
-                    if (!Yaxis)
-                        actualPosition.y = initialPosition.y;
+
                     clickedObject.transform.position = Vector2.SmoothDamp(actualPosition, ray.GetPoint(distance), ref velocity, mouseDragSpeed);
 
                     yield return null;
