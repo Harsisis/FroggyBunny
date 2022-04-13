@@ -8,17 +8,25 @@ public class DragAndDrop : MonoBehaviour
     private Camera gameCamera;
     private WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
     private Vector2 velocity = Vector2.zero;
+    private bool tryToCheat = false;
+
+    private float mouseDragPhysicSpeed = 10f;
+    private float mouseDragSpeed = 0.5f;
 
     [SerializeField]
     private InputAction mouseClick;
-    [SerializeField]
-    private float mouseDragPhysicSpeed = 10f;
-    [SerializeField]
-    private float mouseDragSpeed = 0.5f;
-    [SerializeField]
-    private bool Xaxis = true;
-    [SerializeField]
-    private bool Yaxis = true;
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Draggable")
+        {
+            tryToCheat = true;
+        }
+        else
+        {
+            tryToCheat = false;
+        }
+    }
 
     private void Awake()
     {
@@ -31,18 +39,12 @@ public class DragAndDrop : MonoBehaviour
         mouseClick.performed += MousePressed;
     }
 
-    private void OnDisable()
-    {
-        mouseClick.performed -= MousePressed;
-        mouseClick.Disable();
-    }
-
     private void MousePressed(InputAction.CallbackContext context)
     {
         Ray ray = gameCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit2D hit2d = Physics2D.GetRayIntersection(ray);
 
-        if (null != hit2d.collider && hit2d.collider.gameObject.tag == "Draggable")
+        if (null != hit2d.collider && hit2d.collider.gameObject.tag == "Draggable" && !tryToCheat)
         {
             StartCoroutine(DragUpdate(hit2d.collider.gameObject));
         }
@@ -50,36 +52,34 @@ public class DragAndDrop : MonoBehaviour
 
     private IEnumerator DragUpdate(GameObject clickedObject)
     {
-        clickedObject.TryGetComponent<Rigidbody2D>(out var rigidbody);
-        clickedObject.TryGetComponent<Collider2D>(out var collider);
-
-        float distance = Vector2.Distance(clickedObject.transform.position, gameCamera.transform.position);
-        Vector2 initialPosition = clickedObject.transform.position;
-        Vector2 actualPosition;
-
-        while (mouseClick.ReadValue<float>() != 0f)
+        if (clickedObject != null)
         {
-            Ray ray = gameCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+            clickedObject.TryGetComponent<Rigidbody2D>(out var rigidbody);
 
-            if (rigidbody != null)
+            float distance = Vector2.Distance(clickedObject.transform.position, gameCamera.transform.position);
+            Vector2 actualPosition;
+
+            while (mouseClick.ReadValue<float>() != 0f)
             {
-                mouseDragSpeed = 0f;
-                actualPosition = ray.GetPoint(distance) - clickedObject.transform.position;
-                rigidbody.velocity = actualPosition * mouseDragPhysicSpeed;
+                Ray ray = gameCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
-                yield return waitForFixedUpdate;
-            }
-            else
-            {
-                mouseDragPhysicSpeed = 0f;
-                actualPosition = clickedObject.transform.position;
-                if (!Xaxis)
-                    actualPosition.x = initialPosition.x;
-                if (!Yaxis)
-                    actualPosition.y = initialPosition.y;
-                clickedObject.transform.position = Vector2.SmoothDamp(actualPosition, ray.GetPoint(distance), ref velocity, mouseDragSpeed);
+                if (rigidbody != null)
+                {
+                    mouseDragSpeed = 0f;
+                    actualPosition = ray.GetPoint(distance) - clickedObject.transform.position;
+                    rigidbody.velocity = actualPosition * mouseDragPhysicSpeed;
 
-                yield return null;
+                    yield return waitForFixedUpdate;
+                }
+                else
+                {
+                    mouseDragPhysicSpeed = 0f;
+                    actualPosition = clickedObject.transform.position;
+
+                    clickedObject.transform.position = Vector2.SmoothDamp(actualPosition, ray.GetPoint(distance), ref velocity, mouseDragSpeed);
+
+                    yield return null;
+                }
             }
         }
     }
