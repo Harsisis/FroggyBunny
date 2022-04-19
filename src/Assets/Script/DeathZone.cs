@@ -1,32 +1,31 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;
-using UnityEditor;
-using System.Collections.Generic;
-
-
 
 public class DeathZone : MonoBehaviour
 {
 
-    private PlayerHealth PlayerHealthInstance;
+    private Transform playerSpawn;
+    private Animator fadeSystem;
 
-    private void Start()
+    private void Awake()
     {
-        PlayerHealthInstance = GameObject.Find("Player").GetComponent<PlayerHealth>();
+        playerSpawn = GameObject.FindGameObjectWithTag("PlayerSpawn").transform;
+        fadeSystem = GameObject.FindGameObjectWithTag("FadeSystem").GetComponent<Animator>();
     }
 
-    private IEnumerator OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
+        
         if(collision.CompareTag("Player"))
         {
-            PlayerHealthInstance.showMenu = false;
-            PlayerHealthInstance.Die();
-            yield return new WaitForSeconds(2f);
-            DontDestroyOnLoadScene.instance.RemoveFromDontDestroyOnLoad();
-            GameOverManager.instance.RetryButton();
-            PlayerHealthInstance.showMenu = true;
+            StartCoroutine(ReplacePlayer(collision)); 
         }
     }
 
+    private IEnumerator ReplacePlayer(Collider2D collision)
+    {
+        fadeSystem.SetTrigger("FadeIn");
+        yield return new WaitForSeconds(1f);
+        collision.transform.position = playerSpawn.position;
+    }
 }

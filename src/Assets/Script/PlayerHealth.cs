@@ -15,7 +15,6 @@ public class PlayerHealth : MonoBehaviour
     public HealthBar healthBar;
 
     public float invicibilityTimeAfterHit = 3f;
-    public bool showMenu = true;
 
     public static PlayerHealth instance;
 
@@ -39,6 +38,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
     }
    
     void Update()
@@ -89,11 +89,7 @@ public class PlayerHealth : MonoBehaviour
         Mouvement.instance.animator.SetTrigger("Die");
         Mouvement.instance.rb.bodyType = RigidbodyType2D.Static;
         Mouvement.instance.playerCollider.enabled = false;
-        StopAllCoroutines();
-        if (showMenu)
-        {
-            GameOverManager.instance.OnPlayerDeath();
-        }
+        GameOverManager.instance.OnPlayerDeath();
     }
 
     public void Respawn()
