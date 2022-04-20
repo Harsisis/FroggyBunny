@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using System.Collections;
+
 public class Zoom : MonoBehaviour
 {
     [SerializeField]
@@ -15,8 +16,13 @@ public class Zoom : MonoBehaviour
     private float targetOrtho;
     private bool triggered = false;
     private WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
-    private int maxLoop = 0;
     private float performedZoom;
+    private bool toogle = false;
+    // ¨pour éviter les boucles infinies et le crash complet du jeu.
+    private int maxLoop = 0;
+
+    public bool toogleAccessor { get => toogle; set => toogle = value; }
+    public float getTargetOrtho { get => targetOrtho; }
 
     private void Awake()
     {
@@ -35,10 +41,8 @@ public class Zoom : MonoBehaviour
     {
         if (triggered)
         {
-            if (!switchToInitialSize)
+            if (!switchToInitialSize && toogle == false || switchToInitialSize && toogle == true)
             {
-             
-                switchToInitialSize = true;
                 while (maxLoop != zoomFrames)
                 {
                     if (targetOrtho > zoom)
@@ -55,12 +59,9 @@ public class Zoom : MonoBehaviour
                     maxLoop++;
                     yield return waitForFixedUpdate;
                 }
-
-                performedZoom = 0;
             }
             else
             {
-                switchToInitialSize = false;
                 while (maxLoop != zoomFrames)
                 {
                     if (targetOrtho > zoom)
@@ -86,6 +87,12 @@ public class Zoom : MonoBehaviour
 
             performedZoom = 0;
             maxLoop = 0;
+
+            if (toogle == true)
+                toogle = false;
+            else
+                toogle = true;
+
             triggered = false;
         }
     }

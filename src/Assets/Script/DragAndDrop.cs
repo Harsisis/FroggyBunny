@@ -31,16 +31,16 @@ public class DragAndDrop : MonoBehaviour
     private void Awake()
     {
         gameCamera = Camera.main;
-    }
-
-    private void OnEnable()
-    {
         mouseClick.Enable();
         mouseClick.performed += MousePressed;
     }
 
     private void MousePressed(InputAction.CallbackContext context)
     {
+        if (null != gameCamera)
+        {
+            gameCamera = Camera.main;
+        }
         Ray ray = gameCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit2D hit2d = Physics2D.GetRayIntersection(ray);
 

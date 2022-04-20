@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Data;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -22,11 +23,18 @@ public class PlayerHealth : MonoBehaviour
     private Transform playerSpawn;
     private Animator fadeSystem;
 
+
+    private PlayerHealth PlayerHealthInstance;
+    private ReloadPosition ReloadPosition;
+    private GameObject[] resetOnDeath;
+    private float initialZoom;
+    private GameObject Player;
+
     private void Awake()
     {
         if (instance != null)
         {
-            Debug.LogWarning("Il y a plus d'une instance de PlayerHealth dans la sc�ne");
+            Debug.LogWarning("Il y a plus d'une instance de PlayerHealth dans la sc�ne");
             return;
         }
 
@@ -34,11 +42,16 @@ public class PlayerHealth : MonoBehaviour
 
         playerSpawn = GameObject.FindGameObjectWithTag("PlayerSpawn").transform;
         fadeSystem = GameObject.FindGameObjectWithTag("FadeSystem").GetComponent<Animator>();
+        ReloadPosition = GameObject.Find("GameManager").GetComponent<ReloadPosition>();
+        resetOnDeath = GameObject.FindGameObjectsWithTag("ResetOnDeath");
+        initialZoom = GameObject.FindGameObjectWithTag("ResetOnDeath").GetComponent<Zoom>().getTargetOrtho;
+        Player = GameObject.Find("Player");
     }
 
     void Start()
     {
         currentHealth = maxHealth;
+        healthBar.SetHealth(currentHealth);
     }
    
     void Update()
@@ -70,10 +83,13 @@ public class PlayerHealth : MonoBehaviour
             currentHealth -= damage;
             healthBar.SetHealth(currentHealth);
 
-            //V�rifier si le joueur est toujours vivant
+            //V�rifier si le joueur est toujours vivant
             if(currentHealth <=0)
             {
+                showMenu = false;
                 Die();
+                Respawn();
+                showMenu = true;
                 return;
             }
 
@@ -89,7 +105,6 @@ public class PlayerHealth : MonoBehaviour
         Mouvement.instance.animator.SetTrigger("Die");
         Mouvement.instance.rb.bodyType = RigidbodyType2D.Static;
         Mouvement.instance.playerCollider.enabled = false;
-        StopAllCoroutines();
         if (showMenu)
         {
             GameOverManager.instance.OnPlayerDeath();
@@ -98,12 +113,54 @@ public class PlayerHealth : MonoBehaviour
 
     public void Respawn()
     {
-        Mouvement.instance.enabled = true;
-        Mouvement.instance.animator.SetTrigger("Respawn");
-        Mouvement.instance.rb.bodyType = RigidbodyType2D.Dynamic;
-        Mouvement.instance.playerCollider.enabled = true;
         currentHealth = maxHealth;
         healthBar.SetHealth(currentHealth);
+        Mouvement.instance.animator.SetTrigger("Respawn");
+
+        // Remise de la position sur le dernier respawn
+
+        Player.transform.position = playerSpawn.position;
+
+        // Reset de la position des éléments susceptibles de générer un softlock
+
+        foreach (DataRow dr in ReloadPosition.getNamesAndPositions.Rows)
+        {
+            GameObject itemToPosition = GameObject.Find(dr["Name"].ToString());
+            itemToPosition.TryGetComponent<Rigidbody2D>(out var rigidbody);
+
+            if (rigidbody != null)
+            {
+                rigidbody.velocity = new Vector2(0, 0);
+            }
+            float posX = (float)dr["PositionX"];
+            float posY = (float)dr["PositionY"];
+
+            Vector2 position = new Vector2(posX, posY);
+            itemToPosition.transform.position = position;
+        }
+
+        // Reset des élément possédant un Toogle et devant être remis à l'état initial
+
+        foreach(GameObject toReset in resetOnDeath)
+        {
+            toReset.TryGetComponent<Zoom>(out Zoom zoom);
+
+            if (zoom != null)
+            {
+                zoom.toogleAccessor = false;
+                zoom = null;
+            }
+        }
+
+        // Reset camera 
+
+        Camera.main.orthographicSize = initialZoom;
+
+        // Remise en place des physiques du jeu
+
+        Mouvement.instance.playerCollider.enabled = true;
+        Mouvement.instance.enabled = true;
+        Mouvement.instance.rb.bodyType = RigidbodyType2D.Dynamic;
     }
 
     public IEnumerator InvincibilityFlash()

@@ -20,6 +20,7 @@ public class DontDestroyOnLoadScene : MonoBehaviour
         foreach (var element in objects)
         {
             DontDestroyOnLoad(element);
+            Debug.Log(element.name + " est dans dontDestroyOnLoad");
         }
     }
 
