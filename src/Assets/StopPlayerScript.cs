@@ -11,7 +11,7 @@ public class StopPlayerScript : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            player.active = false;
+            player.SetActive(false);
         }
     }
 }
