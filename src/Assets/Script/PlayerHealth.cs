@@ -11,11 +11,11 @@ public class PlayerHealth : MonoBehaviour
 
     public SpriteRenderer graphics;
 
-    public float invinciblityFlashDelay = 0.2f;
+    public float invinciblityFlashDelay = 0.1f;
 
     public HealthBar healthBar;
 
-    public float invicibilityTimeAfterHit = 3f;
+    public float invicibilityTimeAfterHit = 1f;
     public bool showMenu = true;
 
     public static PlayerHealth instance;
@@ -87,16 +87,24 @@ public class PlayerHealth : MonoBehaviour
             if(currentHealth <=0)
             {
                 showMenu = false;
-                Die();
-                Respawn();
+                StartCoroutine(DieAndRespawnWithoutMenu());
                 showMenu = true;
                 return;
             }
 
             isInvincible = true;
-            StartCoroutine(InvincibilityFlash());
             StartCoroutine(HandleInvincibilityDelay());
+            StartCoroutine(InvincibilityFlash());
         }       
+    }
+
+    public IEnumerator DieAndRespawnWithoutMenu()
+    {
+        showMenu = false;
+        Die();
+        yield return new WaitForSeconds(0.6f);
+        Respawn();
+        showMenu = true;
     }
 
     public void Die()
@@ -172,9 +180,7 @@ public class PlayerHealth : MonoBehaviour
             graphics.color = new Color(1f, 1f, 1f, 1f);
             yield return new WaitForSeconds(invinciblityFlashDelay);
         }
-
-     
-        }
+    }
     public IEnumerator HandleInvincibilityDelay()
     {
         yield return new WaitForSeconds(invicibilityTimeAfterHit);

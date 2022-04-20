@@ -9,6 +9,8 @@ TagManager:
   - Draggable
   - PlayerCave
   - Trampoline
+  - ResetOnDeath
+  - ReloadPositionParent
   layers:
   - Default
   - TransparentFX
@@ -17,7 +19,7 @@ TagManager:
   - Water
   - UI
   - Player
-  - 
+  - ResetOnDeath
   - 
   - 
   - 
