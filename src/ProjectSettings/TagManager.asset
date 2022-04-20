@@ -3,18 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - PlayerSpawn
-  - FadeSystem
-  - Draggable
-  - PlayerCave
-  - Trampoline
-<<<<<<< HEAD
-  - ResetOnDeath
-  - ReloadPositionParent
-=======
-  - Escargot
->>>>>>> 58ce8d1292d3774c85641c0091c6994f9a7da539
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -22,8 +11,8 @@ TagManager:
   - 
   - Water
   - UI
-  - Player
-  - ResetOnDeath
+  - 
+  - 
   - 
   - 
   - 

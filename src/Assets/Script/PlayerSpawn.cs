@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerSpawnCave : MonoBehaviour
+public class PlayerSpawn : MonoBehaviour
 {
     private void Awake()
     {

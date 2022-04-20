@@ -53,7 +53,7 @@ public class Zoom : MonoBehaviour
                     {
                         performedZoom -= targetOrtho * (zoom / zoomFrames / 5);
                     }
-                    
+
 
                     Camera.main.orthographicSize += performedZoom;
                     maxLoop++;
@@ -79,7 +79,7 @@ public class Zoom : MonoBehaviour
                         Camera.main.orthographicSize = targetOrtho;
                     else
                         Camera.main.orthographicSize += performedZoom;
-                   
+
                     maxLoop++;
                     yield return waitForFixedUpdate;
                 }

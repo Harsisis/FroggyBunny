@@ -15,12 +15,9 @@ public class PlayerHealth : MonoBehaviour
 
     public HealthBar healthBar;
 
-<<<<<<< HEAD
     public float invicibilityTimeAfterHit = 1f;
     public bool showMenu = true;
-=======
-    public float invicibilityTimeAfterHit = 3f;
->>>>>>> 58ce8d1292d3774c85641c0091c6994f9a7da539
+
 
     public static PlayerHealth instance;
 
@@ -55,11 +52,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-<<<<<<< HEAD
         healthBar.SetHealth(currentHealth);
-=======
-        healthBar.SetMaxHealth(maxHealth);
->>>>>>> 58ce8d1292d3774c85641c0091c6994f9a7da539
     }
    
     void Update()
@@ -91,7 +84,7 @@ public class PlayerHealth : MonoBehaviour
             currentHealth -= damage;
             healthBar.SetHealth(currentHealth);
 
-            //V�rifier si le joueur est toujours vivant
+            //Verifier si le joueur est toujours vivant
             if(currentHealth <=0)
             {
                 showMenu = false;
@@ -121,14 +114,11 @@ public class PlayerHealth : MonoBehaviour
         Mouvement.instance.animator.SetTrigger("Die");
         Mouvement.instance.rb.bodyType = RigidbodyType2D.Static;
         Mouvement.instance.playerCollider.enabled = false;
-<<<<<<< HEAD
         if (showMenu)
         {
             GameOverManager.instance.OnPlayerDeath();
         }
-=======
-        GameOverManager.instance.OnPlayerDeath();
->>>>>>> 58ce8d1292d3774c85641c0091c6994f9a7da539
+
     }
 
     public void Respawn()
