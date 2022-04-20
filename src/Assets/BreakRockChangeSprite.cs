@@ -15,14 +15,21 @@ public class BreakRockChangeSprite : MonoBehaviour
         currentSprite++;
         if (currentSprite >= spriteArray.Length)
         {
-            currentSprite = 0;
+            Destroy(gameObject);
         }
     }
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            ChangeSprite();
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+            if (hit.collider != null)
+            {
+                ChangeSprite();
+            }
         }
-    }
 }
+    }
