@@ -26,7 +26,7 @@ public class BreakRockChangeSprite : MonoBehaviour
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-            if (hit.collider != null)
+            if (hit.collider.tag=="BreakableRock")
             {
                 ChangeSprite();
             }

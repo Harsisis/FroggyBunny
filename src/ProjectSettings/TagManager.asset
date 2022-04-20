@@ -9,6 +9,7 @@ TagManager:
   - Draggable
   - PlayerCave
   - Trampoline
+  - BreakableRock
   layers:
   - Default
   - TransparentFX
