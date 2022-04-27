@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Draggable
+  - ResetOnDeath
+  - ReloadPositionParent
+  - FadeSystem
+  - PlayerSpawn
+  - Escargot
+  - Trampoline
+  - BreakableRock
+  - CanvasDuplication
+  - InventoryDuplication
   layers:
   - Default
   - TransparentFX

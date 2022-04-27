@@ -11,8 +11,7 @@ public class PlayerHealth : MonoBehaviour
     public float invinciblityFlashDelay = 0.1f;
     public float invicibilityTimeAfterHit = 1f;
     public bool showMenu = true;
-    public static PlayerHealth instance;
-
+    
     private HealthBar healthBar;
     private Transform playerSpawn;
     private Animator fadeSystem;
@@ -23,14 +22,6 @@ public class PlayerHealth : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null)
-        {
-            Debug.LogWarning("Il y a plus d'une instance de PlayerHealth dans la sc�ne");
-            return;
-        }
-
-        instance = this;
-
         playerSpawn = GameObject.FindGameObjectWithTag("PlayerSpawn").transform;
         fadeSystem = GameObject.FindGameObjectWithTag("FadeSystem").GetComponent<Animator>();
         ReloadPosition = GameObject.Find("GameManager").GetComponent<ReloadPosition>();

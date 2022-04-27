@@ -3,14 +3,15 @@ using UnityEngine;
 public class HealPowerUp : MonoBehaviour
 {
     public int healthPoints;
+    private PlayerHealth playerHealthInstance = GameObject.Find("Player").GetComponent<PlayerHealth>();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.CompareTag("Player"))
         {
-            if(PlayerHealth.instance.currentHealth != PlayerHealth.instance.maxHealth)
+            if (playerHealthInstance.currentHealth != playerHealthInstance.maxHealth)
             {
-                PlayerHealth.instance.HealPlayer(healthPoints);
+                playerHealthInstance.HealPlayer(healthPoints);
                 Destroy(gameObject);
             }
             

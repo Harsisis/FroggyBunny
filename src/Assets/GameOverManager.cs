@@ -8,6 +8,7 @@ public class GameOverManager : MonoBehaviour
 
     public static GameOverManager instance;
 
+
     private void Awake()
     {
         if (instance != null)
@@ -38,7 +39,7 @@ public class GameOverManager : MonoBehaviour
     public void RetryButton()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        PlayerHealth.instance.Respawn();
+        GameObject.Find("Player").GetComponent<PlayerHealth>().Respawn();
         gameOverUI.SetActive(false);
     }
 
