@@ -6,26 +6,16 @@ public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 100;
     public int currentHealth;
-
     public bool isInvincible = false;
-
     public SpriteRenderer graphics;
-
     public float invinciblityFlashDelay = 0.1f;
-
-    public HealthBar healthBar;
-
     public float invicibilityTimeAfterHit = 1f;
     public bool showMenu = true;
-
-
     public static PlayerHealth instance;
 
+    private HealthBar healthBar;
     private Transform playerSpawn;
     private Animator fadeSystem;
-
-
-    private PlayerHealth PlayerHealthInstance;
     private ReloadPosition ReloadPosition;
     private GameObject[] resetOnDeath;
     private float initialZoom;
@@ -45,19 +35,24 @@ public class PlayerHealth : MonoBehaviour
         fadeSystem = GameObject.FindGameObjectWithTag("FadeSystem").GetComponent<Animator>();
         ReloadPosition = GameObject.Find("GameManager").GetComponent<ReloadPosition>();
         resetOnDeath = GameObject.FindGameObjectsWithTag("ResetOnDeath");
-        initialZoom = GameObject.FindGameObjectWithTag("ResetOnDeath").GetComponent<Zoom>().getTargetOrtho;
+        healthBar = GameObject.Find("HealthBarCanvas").GetComponent<HealthBar>();
+        Debug.Log("resetOnDeath = " + resetOnDeath);
+        if (resetOnDeath.Length != 0)
+        {
+            initialZoom = GameObject.FindGameObjectWithTag("ResetOnDeath").GetComponent<Zoom>().getTargetOrtho;
+        }
         Player = GameObject.Find("Player");
     }
 
-    void Start()
+    private void Start()
     {
         currentHealth = maxHealth;
         healthBar.SetHealth(currentHealth);
     }
-   
-    void Update()
+
+    private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.H))
         {
             TakeDamage(100);
         }
@@ -65,7 +60,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void HealPlayer(int amount)
     {
-        if((currentHealth + amount) > maxHealth)
+        if ((currentHealth + amount) > maxHealth)
         {
             currentHealth = maxHealth;
         }
@@ -73,19 +68,19 @@ public class PlayerHealth : MonoBehaviour
         {
             currentHealth += amount;
         }
-        
+
         healthBar.SetHealth(currentHealth);
     }
 
     public void TakeDamage(int damage)
     {
-        if (!isInvincible) 
+        if (!isInvincible)
         {
             currentHealth -= damage;
             healthBar.SetHealth(currentHealth);
 
             //Verifier si le joueur est toujours vivant
-            if(currentHealth <=0)
+            if (currentHealth <= 0)
             {
                 showMenu = false;
                 StartCoroutine(DieAndRespawnWithoutMenu());
@@ -96,7 +91,7 @@ public class PlayerHealth : MonoBehaviour
             isInvincible = true;
             StartCoroutine(HandleInvincibilityDelay());
             StartCoroutine(InvincibilityFlash());
-        }       
+        }
     }
 
     public IEnumerator DieAndRespawnWithoutMenu()
@@ -151,7 +146,7 @@ public class PlayerHealth : MonoBehaviour
 
         // Reset des élément possédant un Toogle et devant être remis à l'état initial
 
-        foreach(GameObject toReset in resetOnDeath)
+        foreach (GameObject toReset in resetOnDeath)
         {
             toReset.TryGetComponent<Zoom>(out Zoom zoom);
 
@@ -164,7 +159,11 @@ public class PlayerHealth : MonoBehaviour
 
         // Reset camera 
 
-        Camera.main.orthographicSize = initialZoom;
+        if (initialZoom > 0)
+        {
+            Camera.main.orthographicSize = initialZoom;
+        }
+ 
 
         // Remise en place des physiques du jeu
 
@@ -175,7 +174,7 @@ public class PlayerHealth : MonoBehaviour
 
     public IEnumerator InvincibilityFlash()
     {
-        while(isInvincible)
+        while (isInvincible)
         {
             graphics.color = new Color(1f, 1f, 1f, 0f);
             yield return new WaitForSeconds(invinciblityFlashDelay);
