@@ -27,11 +27,8 @@ public class PlayerHealth : MonoBehaviour
         ReloadPosition = GameObject.Find("GameManager").GetComponent<ReloadPosition>();
         resetOnDeath = GameObject.FindGameObjectsWithTag("ResetOnDeath");
         healthBar = GameObject.Find("HealthBarCanvas").GetComponent<HealthBar>();
-        Debug.Log("resetOnDeath = " + resetOnDeath);
-        if (resetOnDeath.Length != 0)
-        {
-            initialZoom = GameObject.FindGameObjectWithTag("ResetOnDeath").GetComponent<Zoom>().getTargetOrtho;
-        }
+        initialZoom = Camera.main.orthographicSize;
+        Debug.Log(initialZoom);
         Player = GameObject.Find("Player");
     }
 
@@ -150,7 +147,7 @@ public class PlayerHealth : MonoBehaviour
 
         // Reset camera 
 
-        if (initialZoom > 0)
+        if (initialZoom > 0f)
         {
             Camera.main.orthographicSize = initialZoom;
         }

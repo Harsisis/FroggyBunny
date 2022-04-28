@@ -24,7 +24,7 @@ public class Zoom : MonoBehaviour
     public bool toogleAccessor { get => toogle; set => toogle = value; }
     public float getTargetOrtho { get => targetOrtho; }
 
-    private void Awake()
+    private void Start()
     {
         targetOrtho = Camera.main.orthographicSize;
     }
