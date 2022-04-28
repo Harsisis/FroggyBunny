@@ -11,8 +11,19 @@ public class DontDestroyOnLoadScene : MonoBehaviour
     {
         if (instance != null)
         {
-            Debug.LogWarning("Il y a plus d'une instance de GameOverManager dans la scène");
+            Debug.LogWarning("Il y a plus d'une instance de DontDestroyOnLoadScene dans la scène");
             return;
+        }
+
+        GameObject DontDestroyOnLoadInstance = GameObject.FindWithTag("InitialInstance");
+
+        if (null != DontDestroyOnLoadInstance)
+        {
+            Destroy(GameObject.FindWithTag("NoDuplication"));
+        }
+        else
+        {
+            GameObject.FindWithTag("NoDuplication").tag = "InitialInstance";
         }
 
         instance = this;

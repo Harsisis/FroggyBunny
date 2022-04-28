@@ -7,13 +7,11 @@ public class DestroyIfAlreadyLoaded : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        GameObject canvas = GameObject.Find("Canvas");
-        GameObject inventory = GameObject.Find("Inventory");
+        GameObject GUI = GameObject.Find("GUI");
 
-        if (null != canvas || null != inventory)
+        if (null != GUI)
         {
-            Destroy(GameObject.FindWithTag("CanvasDuplication"));
-            Destroy(GameObject.FindWithTag("InventoryDuplication"));
+            Destroy(GameObject.FindWithTag("NoDuplication"));
         }
     }
 }

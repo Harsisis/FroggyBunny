@@ -12,8 +12,8 @@ TagManager:
   - Escargot
   - Trampoline
   - BreakableRock
-  - CanvasDuplication
-  - InventoryDuplication
+  - NoDuplication
+  - InitialInstance
   layers:
   - Default
   - TransparentFX
