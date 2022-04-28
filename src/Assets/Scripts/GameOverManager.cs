@@ -22,17 +22,14 @@ public class GameOverManager : MonoBehaviour
 
     public void OnPlayerDeath()
     {
-        if(CurrentSceneManager.instance.isPlayerPresentByDefault)
-        {
-            DontDestroyOnLoadScene.instance.RemoveFromDontDestroyOnLoad();
-        }
-
+        DontDestroyOnLoadScene.instance.RemoveFromDontDestroyOnLoad();
         StartCoroutine(DelayBeforeMenuAppears());
     }
 
     public IEnumerator DelayBeforeMenuAppears()
     {
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.5f);
+        Destroy(GameObject.Find("Player"));
         gameOverUI.SetActive(true);
     }
 
@@ -40,12 +37,14 @@ public class GameOverManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         GameObject.Find("Player").GetComponent<PlayerHealth>().Respawn();
+        GameObject.Find("Player").GetComponent<SpriteRenderer>().enabled = true;
         gameOverUI.SetActive(false);
     }
 
     public void MainMenuButton()
     {
-        DontDestroyOnLoadScene.instance.RemoveFromDontDestroyOnLoad();
+        // JL : Pas sûr que cela soit utile, si ?
+        // DontDestroyOnLoadScene.instance.RemoveFromDontDestroyOnLoad();
         SceneManager.LoadScene("Menu");
     }
 

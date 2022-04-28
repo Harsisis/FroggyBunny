@@ -15,6 +15,7 @@ public class Checkpoint : MonoBehaviour
         {
             playerSpawn.position = transform.position;
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            Inventory.instance.AddCoins(500);
         }
     }
 

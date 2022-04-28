@@ -19,6 +19,7 @@ public class PlayerHealth : MonoBehaviour
     private GameObject[] resetOnDeath;
     private float initialZoom;
     private GameObject Player;
+    private ScoreManager scoreManager;
 
     private void Awake()
     {
@@ -28,8 +29,8 @@ public class PlayerHealth : MonoBehaviour
         resetOnDeath = GameObject.FindGameObjectsWithTag("ResetOnDeath");
         healthBar = GameObject.Find("HealthBarCanvas").GetComponent<HealthBar>();
         initialZoom = Camera.main.orthographicSize;
-        Debug.Log(initialZoom);
         Player = GameObject.Find("Player");
+        scoreManager = GameObject.Find("GameManager").GetComponent<ScoreManager>();
     }
 
     private void Start()
@@ -100,8 +101,8 @@ public class PlayerHealth : MonoBehaviour
         if (showMenu)
         {
             GameOverManager.instance.OnPlayerDeath();
+            return;
         }
-
     }
 
     public void Respawn()
@@ -158,6 +159,13 @@ public class PlayerHealth : MonoBehaviour
         Mouvement.instance.playerCollider.enabled = true;
         Mouvement.instance.enabled = true;
         Mouvement.instance.rb.bodyType = RigidbodyType2D.Dynamic;
+
+        // On applique le malus de point
+
+        if (Inventory.instance.coinsCount > 0)
+        {
+            scoreManager.DieMalus();
+        }
     }
 
     public IEnumerator InvincibilityFlash()

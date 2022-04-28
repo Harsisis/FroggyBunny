@@ -9,7 +9,7 @@ public class PickUpObjectApple : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             AudioManager.instance.PlayClipAt(sound, transform.position);
-            Inventory.instance.AddCoins(1);
+            Inventory.instance.AddCoins(200);
             Destroy(gameObject);
         }
     }
