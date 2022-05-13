@@ -10,16 +10,21 @@ public class scrip : MonoBehaviour
     string FireName;
     [SerializeField]
     GameObject Light;
+    SpriteRenderer m_SpriteRenderer;
+    [SerializeField]
+    Sprite Off;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        m_SpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void ToggleLight()
     {
-        Destroy(Light);
+        Destroy(GetComponent<Animator>());
+        m_SpriteRenderer.sprite = Off;
     }
     // Update is called once per frame
     void Update()
