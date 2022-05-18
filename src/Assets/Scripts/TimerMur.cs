@@ -8,7 +8,7 @@ public class TimerMur : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Escargot"))
+        if (collision.CompareTag("Draggable"))
         {
             {
                 gameObject.transform.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
