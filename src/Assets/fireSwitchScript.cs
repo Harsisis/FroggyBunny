@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class scrip : MonoBehaviour
+public class fireSwitchScript : MonoBehaviour
 {
     [SerializeField]
     GameObject Fire;
@@ -13,18 +13,23 @@ public class scrip : MonoBehaviour
     SpriteRenderer m_SpriteRenderer;
     [SerializeField]
     Sprite Off;
+    BoxCollider2D Collider;
 
 
     // Start is called before the first frame update
     void Start()
     {
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
+        Collider = GetComponent<BoxCollider2D>();
     }
 
     void ToggleLight()
     {
         Destroy(GetComponent<Animator>());
         m_SpriteRenderer.sprite = Off;
+        Destroy(Light);
+        Destroy(Collider);
+
     }
     // Update is called once per frame
     void Update()
