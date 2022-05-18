@@ -10,7 +10,7 @@ public class Trampoline : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D other)
     {
-        if(other.gameObject.CompareTag("PlayerCave"))
+        if(other.gameObject.CompareTag("Player"))
         {
             rb.velocity = Vector2.up * launchForce;
         }

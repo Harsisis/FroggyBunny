@@ -8,7 +8,7 @@ public class TriggerMur : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("PlayerCave"))
+        if (collision.CompareTag("Player"))
         {
             gameObject.transform.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
             StartCoroutine(Countdown());

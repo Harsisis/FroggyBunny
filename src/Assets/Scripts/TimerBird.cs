@@ -8,7 +8,7 @@ public class TimerBird : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("PlayerCave"))
+        if (collision.CompareTag("Player"))
         {
             {
                 StartCoroutine(Countdown());
