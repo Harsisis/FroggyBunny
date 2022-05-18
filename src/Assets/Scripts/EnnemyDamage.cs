@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class EnnemyDamage : MonoBehaviour
 {
-    public int damageOnCollision = 20;
-    public bool activedTheDamageOption;
+    [SerializeField]
+    private int damageOnCollision = 20;
+
+    public bool activedTheDamageOption = true;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.CompareTag("PlayerCave"))
+        if (collision.transform.CompareTag("Player"))
         {
             if (activedTheDamageOption)
             {
-                PlayerHealth playerHealth = collision.transform.GetComponent<PlayerHealth>();
-                playerHealth.TakeDamage(damageOnCollision);
+               GameObject.Find("Player").GetComponent<PlayerHealth>().TakeDamage(damageOnCollision);
             }
         }
     }
