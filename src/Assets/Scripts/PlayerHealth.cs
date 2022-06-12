@@ -120,6 +120,12 @@ public class PlayerHealth : MonoBehaviour
         foreach (DataRow dr in ReloadPosition.getNamesAndPositions.Rows)
         {
             GameObject itemToPosition = GameObject.Find(dr["Name"].ToString());
+
+            if (itemToPosition.CompareTag("staticReload"))
+            {
+                itemToPosition.transform.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+            }
+
             itemToPosition.TryGetComponent<Rigidbody2D>(out var rigidbody);
 
             if (rigidbody != null)
