@@ -345,7 +345,7 @@ TextMesh:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 396446717}
   m_Text: "Merci d'avoir jou\xE9 \xE0 notre jeu"
-  m_OffsetZ: 0
+  m_OffsetZ: 30
   m_CharacterSize: 1
   m_LineSpacing: 1
   m_Anchor: 4
@@ -562,7 +562,7 @@ TextMesh:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 982966916}
   m_Text: Bravo !
-  m_OffsetZ: 0
+  m_OffsetZ: 30
   m_CharacterSize: 1
   m_LineSpacing: 1
   m_Anchor: 4

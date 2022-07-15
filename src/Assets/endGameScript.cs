@@ -9,7 +9,6 @@ public class endGameScript : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Debug.Log("Finito");
             UnityEngine.SceneManagement.SceneManager.LoadScene("EndGame");
         }
     }
